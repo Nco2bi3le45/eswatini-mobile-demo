@@ -4,71 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eswatini Mobile Demo</title>
-    <style>
-        /* Accessibility styles */
-        .error {
-            color: red;
-        }
-        .success {
-            color: green;
-        }
-    </style>
-</head>
-<body>
-    <h1>Welcome to Eswatini Mobile Demo</h1>
-    <form id="demoForm">
-        <label for="inputField">Input:</label>
-        <input type="text" id="inputField" required>
-        <span id="errorMsg" class="error"></span>
-        <button type="submit">Submit</button>
-        <button type="button" id="logoutBtn">Logout</button>
-    </form>
-    <div id="chartContainer"></div>
     <script>
-        // LocalStorage persistence
-        window.onload = function() {
-            const inputField = document.getElementById('inputField');
-            inputField.value = localStorage.getItem('inputValue') || '';
-        };
-
-        document.getElementById('demoForm').onsubmit = function(event) {
-            event.preventDefault();
-            const inputField = document.getElementById('inputField');
-            const errorMsg = document.getElementById('errorMsg');
-            errorMsg.textContent = '';
-
-            // Input validation
-            if (!inputField.value.trim()) {
-                errorMsg.textContent = 'Input is required.';
-                return;
+        function saveData() {
+            const input = document.getElementById('input').value;
+            if (input) {
+                localStorage.setItem('input', input);
+                alert('Data saved successfully!');
+            } else {
+                alert('Input cannot be empty!');
             }
-
-            // Save to localStorage
-            localStorage.setItem('inputValue', inputField.value);
-
-            // Simulate chart processing and feedback
-            processChart(inputField.value);
-            inputField.value = '';
-        };
-
-        document.getElementById('logoutBtn').onclick = function() {
-            localStorage.removeItem('inputValue');
-            document.getElementById('inputField').value = '';
-            document.getElementById('errorMsg').textContent = '';
-        };
-
-        function processChart(input) {
-            // Placeholder for chart logic
-            const chartContainer = document.getElementById('chartContainer');
-            chartContainer.innerHTML = `<p>Chart for: ${input}</p>`;
-            // Add logic to handle chart memory leak if applicable.
         }
-
-        // StartScanner function implementation can be added here
-        function startScanner() {
-            // Implementation details needed
+        function loadData() {
+            const savedData = localStorage.getItem('input');
+            if (savedData) {
+                document.getElementById('input').value = savedData;
+            }
         }
-
+        function resetForm() {
+            document.getElementById('input').value = '';
+            localStorage.removeItem('input');
+            alert('Form has been reset!');
+        }
     </script>
+</head>
+<body onload="loadData()">
+    <h1>Eswatini Mobile Demo</h1>
+    <form>
+        <label for="input">Enter some data:</label>
+        <input type="text" id="input" aria-required="true" aria-label="Data input"/>
+        <button type="button" onclick="saveData()">Save</button>
+        <button type="button" onclick="resetForm()">Reset</button>
+    </form>
+    <footer>
+        <p>&copy; 2026 Eswatini Mobile Demo</p>
+    </footer>
 </body>
 </html>
